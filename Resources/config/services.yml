@@ -1,0 +1,21 @@
+parameters:
+  orkestra.pdf.pdf_factory.class: Orkestra\Bundle\PdfBundle\Factory\TcpdfPdfFactory
+  orkestra.pdf.pdf_helper.class: Orkestra\Bundle\PdfBundle\Helper\PdfHelper
+
+services:
+  # Factories
+  orkestra.pdf.pdf_factory:
+    class: %orkestra.pdf.pdf_factory.class%
+
+  # Helpers
+  orkestra.pdf.pdf_helper:
+    class: %orkestra.pdf.pdf_helper.class%
+    arguments: [ @orkestra.pdf.pdf_factory, @templating ]
+
+  # Utility services
+  orkestra.pdf.cache_warmer:
+    public: false
+    class: Orkestra\Bundle\PdfBundle\CacheWarmer\PdfCacheWarmer
+    arguments: [ @service_container ]
+    tags:
+      - { name: kernel.cache_warmer }
