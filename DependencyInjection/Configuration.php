@@ -21,10 +21,10 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('orkestra_pdf');
 
         $rootNode->children()
-            ->scalarNode('root_dir')->defaultValue('%kernel.root_dir%/../vendor/tcpdf/tcdpf/')->end()
-            ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/orkestra_pdf/')->end()
-            ->scalarNode('fonts_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/fonts/')->end()
-            ->scalarNode('image_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/images/')->end()
+            ->scalarNode('root_dir')->defaultValue('%kernel.root_dir%/../vendor/tcpdf/tcpdf')->end()
+            ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/orkestra_pdf')->end()
+            ->scalarNode('fonts_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/fonts')->end()
+            ->scalarNode('image_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/images')->end()
         ->end();
 
         return $treeBuilder;

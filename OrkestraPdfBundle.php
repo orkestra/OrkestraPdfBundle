@@ -38,7 +38,6 @@ class OrkestraPdfBundle extends Bundle
          * use K_PATH_MAIN.'fonts/old/' for old non-UTF8 fonts
          */
         define('K_PATH_FONTS', $this->ensurePathEndsWithSlash($this->container->getParameter('orkestra.pdf.tcpdf.fonts_dir')));
-
         /**
          * cache directory for temporary files (full path)
          */
@@ -90,6 +89,6 @@ class OrkestraPdfBundle extends Bundle
      */
     private function ensurePathEndsWithSlash($path)
     {
-        return rtrim(DIRECTORY_SEPARATOR, $path) . DIRECTORY_SEPARATOR;
+        return rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

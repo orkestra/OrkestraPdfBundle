@@ -19,3 +19,10 @@ services:
     arguments: [ @service_container ]
     tags:
       - { name: kernel.cache_warmer }
+
+  # Abstract generator
+  orkestra.pdf.abstract_generator:
+    public: false
+    abstract: true
+    class: Orkestra\Bundle\PdfBundle\Generator\AbstractPdfGenerator
+    arguments: [ @orkestra.pdf.pdf_factory, @templating ]
