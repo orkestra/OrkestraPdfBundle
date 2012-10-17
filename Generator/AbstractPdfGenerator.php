@@ -3,6 +3,8 @@
 namespace Orkestra\Bundle\PdfBundle\Generator;
 
 use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Orkestra\Bundle\PdfBundle\Factory\PdfFactoryInterface;
 
 abstract class AbstractPdfGenerator implements PdfGeneratorInterface
@@ -30,6 +32,51 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
     }
 
     /**
+     * Performs the PDF generation
+     *
+     * @param array $parameters An array of parameters to be used to render the PDF
+     * @param array $options    An array of options to be passed to the underlying PdfFactory
+     *
+     * @return \TCPDF
+     */
+    abstract protected function doGenerate(array $parameters, array $options);
+
+    /**
+     * Generates a new PDF
+     *
+     * @param array $parameters An array of parameters to be used to render the PDF
+     * @param array $options    An array of options to be passed to the underlying PdfFactory
+     *
+     * @return \TCPDF
+     */
+    public function generate(array $parameters = array(), array $options = array())
+    {
+        $parametersResolver = new OptionsResolver();
+        $this->setDefaultParameters($parametersResolver);
+
+        $parameters = $parametersResolver->resolve($parameters);
+
+        $optionsResolver = new OptionsResolver();
+        $this->setDefaultOptions($optionsResolver);
+
+        $options = $optionsResolver->resolve($options);
+
+        return $this->doGenerate($parameters, $options);
+    }
+
+    /**
+     * Creates a new PDF with the given options
+     *
+     * @param array $options
+     *
+     * @return \TCPDF
+     */
+    protected function createPdf(array $options)
+    {
+        return $this->pdfFactory->create($options);
+    }
+
+    /**
      * Uses the underlying Templating engine to render a template
      *
      * @param string $template
@@ -40,5 +87,48 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
     public function render($template, array $parameters = array())
     {
         return $this->templatingEngine->render($template, $parameters);
+    }
+
+    /**
+     * Set allowed, required and default parameters
+     *
+     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     */
+    protected function setDefaultParameters(OptionsResolverInterface $resolver)
+    {
+    }
+
+    /**
+     * Set allowed, required and default options
+     *
+     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     */
+    protected function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setOptional(array(
+            'creator',
+            'author',
+            'title',
+            'subject',
+            'keywords',
+            'defaultMonospacedFont',
+            'imageScale',
+            'languageArray',
+            'font',
+        ));
+
+        $resolver->setDefaults(array(
+            'orientation' => 'P',
+            'unit' => 'mm',
+            'format' => 'A4',
+            'unicode' => true,
+            'encoding' => 'UTF-8',
+            'diskcache' => true,
+            'pdfa' => false,
+            'printHeader' => false,
+            'printFooter' => false,
+            'margins' => array(15, 27, 15),
+            'autoPageBreak' => array(true, 25),
+        ));
     }
 }

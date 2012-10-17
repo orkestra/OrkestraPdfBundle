@@ -28,7 +28,7 @@ class TcpdfPdfFactory implements PdfFactoryInterface
         foreach ($options as $option => $arguments) {
             if (is_callable(array($pdf, 'set' . $option))) {
                 if (!is_array($arguments)) {
-                    if (empty($arguments)) {
+                    if (null === $arguments) {
                         $arguments = array();
                     } else {
                         $arguments = array($arguments);
