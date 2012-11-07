@@ -120,7 +120,7 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
         $resolver->setDefaults(array(
             'orientation' => 'P',
             'unit' => 'mm',
-            'format' => 'A4',
+            'format' => 'USLETTER',
             'unicode' => true,
             'encoding' => 'UTF-8',
             'diskcache' => true,
