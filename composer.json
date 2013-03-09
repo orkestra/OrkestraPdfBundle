@@ -1,14 +1,29 @@
 {
-    "name": "orkestra/pdf-bundle",
-    "description": "Provides integration between Symfony and TCPDF",
-    "type": "symfony-bundle",
-    "license": "MIT",
-    "require": {
-        "php": ">=5.3.0",
-        "tcpdf/tcpdf": "dev-master"
-    },
-    "autoload": {
-        "psr-0": { "Orkestra\\Bundle\\PdfBundle": "" }
-    },
-    "target-dir": "Orkestra/Bundle/PdfBundle"
+  "name": "orkestra/pdf-bundle",
+  "description": "Provides integration between Symfony and PDF generation libraries",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://packages.zendframework.com/"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3"
+  },
+  "require-dev": {
+    "tcpdf/tcpdf": "dev-master",
+    "zendframework/zend-stdlib": "2.1.0",
+    "zendframework/zendpdf": "2.*"
+  },
+  "suggest": {
+    "tcpdf": "Support for decent but very slow PDF generation",
+    "zend/pdf": "Support for some basic PDF generation functionality, notably merging PDFs",
+    "wkhtmltopdf": "Fantastic support for PDF generation using the webkit HTML rendering engine"
+  },
+  "autoload": {
+    "psr-0": { "Orkestra\\Bundle\\PdfBundle": "" }
+  },
+  "target-dir": "Orkestra/Bundle/PdfBundle"
 }
