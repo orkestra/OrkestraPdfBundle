@@ -1,5 +1,5 @@
 OrkestraPdfBundle
 ========================
 
-Abstracts different PDF generation libraries. Currently supports TCPDF.
+Abstracts different PDF generation libraries. Currently supports TCPDF, Zend PDF and wkhtmltopdf.
 
