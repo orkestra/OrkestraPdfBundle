@@ -9,7 +9,7 @@ interface PdfFactoryInterface
      *
      * @param array $options
      *
-     * @return \TCPDF
+     * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
-    function create(array $options = array());
+    public function create(array $options = array());
 }

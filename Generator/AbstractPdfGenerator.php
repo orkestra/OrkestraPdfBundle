@@ -37,7 +37,7 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
      * @param array $parameters An array of parameters to be used to render the PDF
      * @param array $options    An array of options to be passed to the underlying PdfFactory
      *
-     * @return \TCPDF
+     * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
     abstract protected function doGenerate(array $parameters, array $options);
 
@@ -47,7 +47,7 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
      * @param array $parameters An array of parameters to be used to render the PDF
      * @param array $options    An array of options to be passed to the underlying PdfFactory
      *
-     * @return \TCPDF
+     * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
     public function generate(array $parameters = array(), array $options = array())
     {
@@ -69,7 +69,7 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
      *
      * @param array $options
      *
-     * @return \TCPDF
+     * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
     protected function createPdf(array $options)
     {

@@ -1,11 +1,17 @@
 parameters:
-  orkestra.pdf.pdf_factory.class: Orkestra\Bundle\PdfBundle\Factory\TcpdfPdfFactory
-  orkestra.pdf.pdf_helper.class: Orkestra\Bundle\PdfBundle\Helper\PdfHelper
+  orkestra.pdf.tcpdf_factory.class:   Orkestra\Bundle\PdfBundle\Factory\TcPdfFactory
+  orkestra.pdf.wkpdf_factory.class:   Orkestra\Bundle\PdfBundle\Factory\WkPdfFactory
+  orkestra.pdf.zendpdf_factory.class: Orkestra\Bundle\PdfBundle\Factory\ZendPdfFactory
+  orkestra.pdf.pdf_helper.class:      Orkestra\Bundle\PdfBundle\Helper\PdfHelper
 
 services:
   # Factories
-  orkestra.pdf.pdf_factory:
-    class: %orkestra.pdf.pdf_factory.class%
+  orkestra.pdf.tcpdf_factory:
+    class: %orkestra.pdf.tcpdf_factory.class%
+  orkestra.pdf.wkpdf_factory:
+    class: %orkestra.pdf.wkpdf_factory.class%
+  orkestra.pdf.zendpdf_factory:
+    class: %orkestra.pdf.zendpdf_factory.class%
 
   # Helpers
   orkestra.pdf.pdf_helper:

@@ -2,10 +2,10 @@
 
 namespace Orkestra\Bundle\PdfBundle\Factory;
 
-use TCPDF;
+use Orkestra\Bundle\PdfBundle\Pdf\TcPdf;
 use ReflectionClass;
 
-class TcpdfPdfFactory implements PdfFactoryInterface
+class TcPdfFactory implements PdfFactoryInterface
 {
     protected $reflClass;
 
@@ -15,11 +15,11 @@ class TcpdfPdfFactory implements PdfFactoryInterface
     }
 
     /**
-     * TODO: Normalize TCPDF into some sort of common class
+     * Create a new TcPdf
      *
      * @param array $options
      *
-     * @return \TCPDF
+     * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface|\Orkestra\Bundle\PdfBundle\Pdf\TcPdf
      */
     public function create(array $options = array())
     {
@@ -39,7 +39,7 @@ class TcpdfPdfFactory implements PdfFactoryInterface
             }
         }
 
-        return $pdf;
+        return new TcPdf($pdf);
     }
 
     /**
