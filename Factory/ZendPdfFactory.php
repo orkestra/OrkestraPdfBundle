@@ -2,8 +2,8 @@
 
 namespace Orkestra\Bundle\PdfBundle\Factory;
 
-use Orkestra\Bundle\PdfBundle\Pdf\TcPdf;
-use ReflectionClass;
+use Orkestra\Bundle\PdfBundle\Pdf\ZendPdf;
+use ZendPdf\PdfDocument;
 
 class ZendPdfFactory implements PdfFactoryInterface
 {
@@ -16,6 +16,6 @@ class ZendPdfFactory implements PdfFactoryInterface
      */
     public function create(array $options = array())
     {
-
+        return new ZendPdf(new PdfDocument());
     }
 }

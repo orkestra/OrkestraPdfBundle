@@ -102,6 +102,8 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
      * Set allowed, required and default options
      *
      * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     *
+     * @todo These are all specific to TCPDF
      */
     protected function setDefaultOptions(OptionsResolverInterface $resolver)
     {

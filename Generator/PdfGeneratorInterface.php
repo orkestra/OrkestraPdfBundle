@@ -13,7 +13,7 @@ interface PdfGeneratorInterface
      * @param array $parameters
      * @param array $options
      *
-     * @return \TCPDF
+     * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
     function generate(array $parameters = array(), array $options = array());
 }

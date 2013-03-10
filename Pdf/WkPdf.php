@@ -2,6 +2,9 @@
 
 namespace Orkestra\Bundle\PdfBundle\Pdf;
 
+/**
+ * Wrapper for a PDF generated using wkhtmltopdf
+ */
 class WkPdf implements PdfInterface
 {
     /**
