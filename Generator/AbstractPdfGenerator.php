@@ -84,7 +84,7 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
      *
      * @return string
      */
-    public function render($template, array $parameters = array())
+    protected function render($template, array $parameters = array())
     {
         return $this->templatingEngine->render($template, $parameters);
     }
