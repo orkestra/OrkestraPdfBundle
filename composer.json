@@ -13,9 +13,9 @@
     "php": ">=5.3.3"
   },
   "require-dev": {
-    "tecnick.com/tcpdf": "~6.0"
-    "zendframework/zend-stdlib": "~2.2",
-    "zendframework/zendpdf": "2.2"
+    "tecnick.com/tcpdf": "~6.0",
+    "zendframework/zend-stdlib": "2.*",
+    "zendframework/zendpdf": "2.*"
   },
   "suggest": {
     "tcpdf": "Support for decent but very slow PDF generation",
