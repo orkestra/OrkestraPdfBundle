@@ -13,9 +13,9 @@
     "php": ">=5.3.3"
   },
   "require-dev": {
-    "tcpdf/tcpdf": "dev-master",
-    "zendframework/zend-stdlib": "2.1.0",
-    "zendframework/zendpdf": "2.*"
+    "tecnick.com/tcpdf": "~6.0"
+    "zendframework/zend-stdlib": "~2.2",
+    "zendframework/zendpdf": "2.2"
   },
   "suggest": {
     "tcpdf": "Support for decent but very slow PDF generation",
@@ -25,5 +25,10 @@
   "autoload": {
     "psr-0": { "Orkestra\\Bundle\\PdfBundle": "" }
   },
-  "target-dir": "Orkestra/Bundle/PdfBundle"
+  "target-dir": "Orkestra/Bundle/PdfBundle",
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "1.0-dev"
+    }
+  }
 }
