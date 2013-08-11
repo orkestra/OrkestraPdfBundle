@@ -2,11 +2,12 @@
 
 namespace Orkestra\Bundle\PdfBundle\Pdf;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
+
 /**
  * Wrapper for a PDF generated using wkhtmltopdf
  */
-use Symfony\Component\Process\ProcessBuilder;
-
 class WkPdfBuilder
 {
     const ORIENTATION_PORTRAIT  = 'Portrait';
@@ -14,6 +15,8 @@ class WkPdfBuilder
     const ORIENTATION_LANDSCAPE = 'Landscape';
 
     const SIZE_A4 = 'A4';
+
+    const SIZE_LETTER = 'Letter';
 
     /**
      * @var string
@@ -36,10 +39,11 @@ class WkPdfBuilder
     private $options = array(
         'title'       => null,
         'orientation' => self::ORIENTATION_PORTRAIT,
-        'size'        => self::SIZE_A4,
+        'size'        => self::SIZE_LETTER,
         'toc'         => false,
         'uri'         => null,
         'output'      => null,
+        'input'       => null
     );
 
     /**
@@ -60,11 +64,11 @@ class WkPdfBuilder
      */
     private function render()
     {
-        $builder = new ProcessBuilder($this->buildProcessArgs());
-        $process = $builder->getProcess();
+        $process = $this->getProcess();
+        echo $process->getCommandLine() . "\n";
         $process->run();
         if (0 === $process->getExitCode()) {
-            return new WkPdf($this->getOption('output'));
+            return new WkPdf($this->getOption('output'), $this);
         }
 
         throw new \RuntimeException(sprintf('Unable to render PDF. Process exited with "%s" (code: %s)', $process->getExitCodeText(), $process->getExitCode()));
@@ -73,13 +77,31 @@ class WkPdfBuilder
     /**
      * Builds command line arguments based on the current configuration
      *
-     * @return array
+     * Command line format for wkhtmltopdf:
+     * wkhtmltopdf [GLOBAL OPTION]... [OBJECT]... <output file>
+     *
+     * @return Process
      */
-    private function buildProcessArgs()
+    private function getProcess()
     {
-        $args = array();
+        $builder = new ProcessBuilder();
+        $args = array(
+            '--orientation',
+            $this->getOrientation(),
+            '--page-size',
+            $this->getSize(),
+            '-',
+            $this->getOutput()
+        );
 
-        return $args;
+        $builder->setPrefix($this->executable);
+        $builder->setArguments($args);
+
+        $process = $builder->getProcess();
+
+        $process->setCommandLine(sprintf('echo "%s" | %s', addslashes($this->getInput()), $process->getCommandLine()));
+
+        return $process;
     }
 
     /**
@@ -118,7 +140,7 @@ class WkPdfBuilder
      */
     public function setOption($option, $value)
     {
-        if (!isset($this->options[$option])) {
+        if (!array_key_exists($option, $this->options)) {
             throw new \InvalidArgumentException(sprintf('Unknown option "%s"', $option));
         }
 
@@ -250,5 +272,25 @@ class WkPdfBuilder
     public function getUri()
     {
         return $this->getOption('uri');
+    }
+
+    /**
+     * Sets the HTML input
+     *
+     * @param string
+     */
+    public function setInput($html)
+    {
+        $this->setOption('input', $html);
+    }
+
+    /**
+     * Gets the HTML input
+     *
+     * @return string
+     */
+    public function getInput()
+    {
+        return $this->getOption('input');
     }
 }
