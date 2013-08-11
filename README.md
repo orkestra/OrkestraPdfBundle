@@ -66,6 +66,9 @@ class InvoiceGenerator extends AbstractPdfGenerator
      */
     public function setDefaultParameters(OptionsResolverInterface $resolver)
     {
+        $resolver->setRequired(array(
+            'invoice',
+        ));
         $resolver->setAllowedTypes(array(
             'invoice' => 'MyBundle\Entity\Invoice',
         ));
