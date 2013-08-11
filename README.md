@@ -50,11 +50,25 @@ class InvoiceGenerator extends AbstractPdfGenerator
      */
     protected function doGenerate(array $parameters, array $options)
     {
-        $builder = $this->factory->create();
-        $builder->useTemporaryFile(true);
+        $builder = $this->factory->create($options);
+        $builder->useTemporaryFile();
         $builder->setInput($this->render('MyBundle:Pdf\Invoice:template.html.twig', $parameters));
 
         return $builder->getPdf();
+    }
+
+    /**
+     * Configure the parameters OptionsResolver.
+     *
+     * Use this method to specify default and required options
+     *
+     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     */
+    public function setDefaultParameters(OptionsResolverInterface $resolver)
+    {
+        $resolver->setAllowedTypes(array(
+            'invoice' => 'MyBundle\Entity\Invoice',
+        ));
     }
 }
 ```
@@ -67,6 +81,13 @@ In services.yml:
 ```yml
 my_bundle.invoice_pdf_generator:
   class: MyBundle\PdfGenerator\InvoiceGenerator
-  public: true
-  parent: orkestra.pdf.abstract_generator
+  arguments: [ @orkestra.pdf.wkpdf_factory, @templating ]
 ```
+
+`AbstractPdfGenerator`, by default, takes an appropriate PDF factory and the templating service.
+
+Available factories:
+
+* TCPDF Factory:       `orkestra.pdf.tcpdf_factory`
+* wkhtmltopdf Factory: `orkestra.pdf.wkpdf_factory`
+* Zend PDF Factory:    `orkestra.pdf.zendpdf_factory`

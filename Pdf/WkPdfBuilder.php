@@ -65,7 +65,6 @@ class WkPdfBuilder
     private function render()
     {
         $process = $this->getProcess();
-        echo $process->getCommandLine() . "\n";
         $process->run();
         if (0 === $process->getExitCode()) {
             return new WkPdf($this->getOption('output'), $this);
@@ -292,5 +291,13 @@ class WkPdfBuilder
     public function getInput()
     {
         return $this->getOption('input');
+    }
+
+    /**
+     * Sets the output file to a temporary file
+     */
+    public function useTemporaryFile()
+    {
+        $this->setOutput(tempnam(sys_get_temp_dir(), 'orkestra_pdf-'));
     }
 }
