@@ -15,7 +15,8 @@
   "require-dev": {
     "tecnick.com/tcpdf": "~6.0",
     "zendframework/zend-stdlib": "2.*",
-    "zendframework/zendpdf": "2.*"
+    "zendframework/zendpdf": "2.*",
+    "symfony/symfony": "~2.3"
   },
   "suggest": {
     "tcpdf": "Support for decent but very slow PDF generation",
