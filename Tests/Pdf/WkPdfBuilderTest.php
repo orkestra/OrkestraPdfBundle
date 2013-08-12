@@ -11,7 +11,6 @@
 
 namespace Orkestra\Bundle\PdfBundle\Tests\Generator;
 
-use Orkestra\Bundle\PdfBundle\Factory\WkPdfFactory;
 use Orkestra\Bundle\PdfBundle\Pdf\WkPdfBuilder;
 
 class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase

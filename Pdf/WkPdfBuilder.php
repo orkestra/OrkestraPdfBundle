@@ -142,7 +142,7 @@ class WkPdfBuilder implements PdfInterface
      * Sets the given options
      *
      * @param string $option
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @throws \InvalidArgumentException
      */

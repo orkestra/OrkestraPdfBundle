@@ -34,7 +34,6 @@ class TestFactory implements PdfFactoryInterface
         return 'fake';
     }
 
-
     public function getName()
     {
         return 'registry_test';

@@ -13,9 +13,6 @@ namespace Orkestra\Bundle\PdfBundle\Factory;
 
 use Orkestra\Bundle\PdfBundle\Pdf\WkPdf;
 use Orkestra\Bundle\PdfBundle\Pdf\WkPdfBuilder;
-use Symfony\Component\Finder\Finder;
-use TCPDF;
-use ReflectionClass;
 
 class WkPdfFactory implements PdfFactoryInterface
 {
