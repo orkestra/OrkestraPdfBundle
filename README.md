@@ -27,13 +27,34 @@ Currently supported: TCPDF, Zend PDF, and wkhtmltopdf.
 ## Generators
 
 The basis of this bundle revolves around services called "Generators". Generators know how to take
-some input, such as entities and other data, and return a PDF ready to be used.
+some input, such as entities and other data, and return a PDF ready to be used. Generators encapsulate
+library-specific logic, returning a subtype of `Orkestra\Bundle\PdfBundle\Pdf\PdfInterface` which can
+then be used to send the generated PDF to the browser, save it to the filesystem, etc.
 
-All Generators should implement `PdfGeneratorInterface`. Additionally, an base class called
+All Generators should implement `PdfGeneratorInterface`. Additionally, a base class called
 `AbstractPdfGenerator` is included. This document details how to extend `AbstractPdfGenerator`
 
 
 ### Creating an Invoice Generator
+
+The two main methods to implemented is the `doGenerate` and `setDefaultParameters` methods.
+
+#### doGenerate
+
+This method actually performs the PDF generator. The method takes two parameters, `$parameters` and
+`$options`.
+
+* `$parameters`: An array of data to be sent to the templating engine.
+* `$options`: An array of options to pass to the underlying PDF library.
+
+#### setDefaultParameters
+
+This method configures an `OptionsResolver` and allows specification of required and available
+parameters that the Generator supports.
+
+NOTE: There's also a `setDefaultOptions` method available.
+
+#### Example InvoiceGenerator implementation
 
 ```php
 <?php
@@ -77,6 +98,17 @@ class InvoiceGenerator extends AbstractPdfGenerator
 }
 ```
 
+#### `AbstractPdfGenerator->createPdf($type, $options)`
+
+This method wraps the PDF factory registry. As the first parameter, pass the type of PDF and
+options to configure it.
+
+Available PDF types to be used with `AbstractPdfGenerator->createPdf($type, $options)`:
+
+* TCPDF:       `tcpdf`
+* wkhtmltopdf: `wkpdf`
+* Zend PDF:    `zendpdf`
+
 
 ## Registering your generator
 
@@ -89,9 +121,3 @@ my_bundle.invoice_pdf_generator:
 ```
 
 `AbstractPdfGenerator`, by default, takes a PDF factory registry and the templating service.
-
-Available PDF types to be used with `AbstractPdfGenerator->createPdf($type, $options)`:
-
-* TCPDF:       `tcpdf`
-* wkhtmltopdf: `wkpdf`
-* Zend PDF:    `zendpdf`
