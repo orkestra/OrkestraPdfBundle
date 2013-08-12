@@ -2,17 +2,17 @@
 
 namespace Orkestra\Bundle\PdfBundle\Generator;
 
+use Orkestra\Bundle\PdfBundle\Factory\FactoryRegistryInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Orkestra\Bundle\PdfBundle\Factory\PdfFactoryInterface;
 
 abstract class AbstractPdfGenerator implements PdfGeneratorInterface
 {
     /**
-     * @var \Orkestra\Bundle\PdfBundle\Factory\PdfFactoryInterface
+     * @var \Orkestra\Bundle\PdfBundle\Factory\FactoryRegistryInterface
      */
-    protected $pdfFactory;
+    protected $factoryRegistry;
 
     /**
      * @var \Symfony\Component\Templating\EngineInterface
@@ -22,12 +22,12 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
     /**
      * Constructor
      *
-     * @param \Orkestra\Bundle\PdfBundle\Factory\PdfFactoryInterface $pdfFactory
-     * @param \Symfony\Component\Templating\EngineInterface $templatingEngine
+     * @param \Orkestra\Bundle\PdfBundle\Factory\FactoryRegistryInterface $factoryRegistry
+     * @param \Symfony\Component\Templating\EngineInterface               $templatingEngine
      */
-    public function __construct(PdfFactoryInterface $pdfFactory, EngineInterface $templatingEngine)
+    public function __construct(FactoryRegistryInterface $factoryRegistry, EngineInterface $templatingEngine)
     {
-        $this->pdfFactory = $pdfFactory;
+        $this->factoryRegistry  = $factoryRegistry;
         $this->templatingEngine = $templatingEngine;
     }
 
@@ -67,20 +67,21 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
     /**
      * Creates a new PDF with the given options
      *
-     * @param array $options
+     * @param string $type
+     * @param array  $options
      *
      * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
-    protected function createPdf(array $options)
+    protected function createPdf($type, array $options = array())
     {
-        return $this->pdfFactory->create($options);
+        return $this->factoryRegistry->getFactory($type)->create($options);
     }
 
     /**
      * Uses the underlying Templating engine to render a template
      *
      * @param string $template
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return string
      */

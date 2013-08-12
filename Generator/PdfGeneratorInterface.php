@@ -15,5 +15,5 @@ interface PdfGeneratorInterface
      *
      * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
-    function generate(array $parameters = array(), array $options = array());
+    public function generate(array $parameters = array(), array $options = array());
 }

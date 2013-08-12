@@ -50,7 +50,8 @@ class InvoiceGenerator extends AbstractPdfGenerator
      */
     protected function doGenerate(array $parameters, array $options)
     {
-        $builder = $this->factory->create($options);
+        /** @var \Orkestra\Bundle\PdfBundle\Pdf\WkPdfBuilder $builder */
+        $builder = $this->createPdf('wkpdf', $options);
         $builder->useTemporaryFile();
         $builder->setInput($this->render('MyBundle:Pdf\Invoice:template.html.twig', $parameters));
 
@@ -84,13 +85,13 @@ In services.yml:
 ```yml
 my_bundle.invoice_pdf_generator:
   class: MyBundle\PdfGenerator\InvoiceGenerator
-  arguments: [ @orkestra.pdf.wkpdf_factory, @templating ]
+  arguments: [ @orkestra.pdf.factory_registry, @templating ]
 ```
 
-`AbstractPdfGenerator`, by default, takes an appropriate PDF factory and the templating service.
+`AbstractPdfGenerator`, by default, takes a PDF factory registry and the templating service.
 
-Available factories:
+Available PDF types to be used with `AbstractPdfGenerator->createPdf($type, $options)`:
 
-* TCPDF Factory:       `orkestra.pdf.tcpdf_factory`
-* wkhtmltopdf Factory: `orkestra.pdf.wkpdf_factory`
-* Zend PDF Factory:    `orkestra.pdf.zendpdf_factory`
+* TCPDF:       `tcpdf`
+* wkhtmltopdf: `wkpdf`
+* Zend PDF:    `zendpdf`
