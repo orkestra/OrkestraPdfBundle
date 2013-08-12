@@ -37,7 +37,7 @@ All Generators should implement `PdfGeneratorInterface`. Additionally, a base cl
 
 ### Creating an Invoice Generator
 
-The two main methods to implemented is the `doGenerate` and `setDefaultParameters` methods.
+The two main methods to implement are: `doGenerate` and `setDefaultParameters`.
 
 #### doGenerate
 
@@ -86,7 +86,7 @@ class InvoiceGenerator extends AbstractPdfGenerator
      *
      * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
      */
-    public function setDefaultParameters(OptionsResolverInterface $resolver)
+    protected function setDefaultParameters(OptionsResolverInterface $resolver)
     {
         $resolver->setRequired(array(
             'invoice',
