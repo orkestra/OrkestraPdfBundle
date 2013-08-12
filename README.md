@@ -98,10 +98,10 @@ class InvoiceGenerator extends AbstractPdfGenerator
 }
 ```
 
-#### `AbstractPdfGenerator->createPdf($type, $options)`
+#### Useful methods
 
-This method wraps the PDF factory registry. As the first parameter, pass the type of PDF and
-options to configure it.
+`AbstractPdfGenerator->createPdf($type, $options)` wraps the PDF factory registry. As the first
+parameter, pass the type of PDF and options to configure it.
 
 Available PDF types to be used with `AbstractPdfGenerator->createPdf($type, $options)`:
 
