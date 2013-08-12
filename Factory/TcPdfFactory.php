@@ -76,4 +76,14 @@ class TcPdfFactory implements PdfFactoryInterface
 
         return array_values($ctorOptions);
     }
+
+    /**
+     * The name of this factory
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'tcpdf';
+    }
 }

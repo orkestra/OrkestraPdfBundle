@@ -18,4 +18,14 @@ class ZendPdfFactory implements PdfFactoryInterface
     {
         return new ZendPdf(new PdfDocument());
     }
+
+    /**
+     * The name of this factory
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'zendpdf';
+    }
 }

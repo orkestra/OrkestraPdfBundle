@@ -1,7 +1,8 @@
 parameters:
-  orkestra.pdf.tcpdf_factory.class:   Orkestra\Bundle\PdfBundle\Factory\TcPdfFactory
-  orkestra.pdf.wkpdf_factory.class:   Orkestra\Bundle\PdfBundle\Factory\WkPdfFactory
-  orkestra.pdf.zendpdf_factory.class: Orkestra\Bundle\PdfBundle\Factory\ZendPdfFactory
+  orkestra.pdf.tcpdf_factory.class:    Orkestra\Bundle\PdfBundle\Factory\TcPdfFactory
+  orkestra.pdf.wkpdf_factory.class:    Orkestra\Bundle\PdfBundle\Factory\WkPdfFactory
+  orkestra.pdf.zendpdf_factory.class:  Orkestra\Bundle\PdfBundle\Factory\ZendPdfFactory
+  orkestra.pdf.factory_registry.class: Orkestra\Bundle\PdfBundle\Factory\FactoryRegistry
 
 services:
   # Factories
@@ -11,6 +12,14 @@ services:
     class: %orkestra.pdf.wkpdf_factory.class%
   orkestra.pdf.zendpdf_factory:
     class: %orkestra.pdf.zendpdf_factory.class%
+
+  # Registry
+  orkestra.pdf.factory_registry:
+    class: %orkestra.pdf.factory_registry%
+    calls:
+      - [ registerFactory, [ @orkestra.pdf.tcpdf_factory ] ]
+      - [ registerFactory, [ @orkestra.pdf.wkpdf_factory ] ]
+      - [ registerFactory, [ @orkestra.pdf.zendpdf_factory ] ]
 
   # Utility services
   orkestra.pdf.cache_warmer:

@@ -23,4 +23,14 @@ class WkPdfFactory implements PdfFactoryInterface
     {
         return new WkPdfBuilder($this->executable, $options);
     }
+
+    /**
+     * The name of this factory
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'wkpdf';
+    }
 }
