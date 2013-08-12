@@ -8,7 +8,7 @@ use Symfony\Component\Process\ProcessBuilder;
 /**
  * Wrapper for a PDF generated using wkhtmltopdf
  */
-class WkPdfBuilder
+class WkPdfBuilder implements PdfInterface
 {
     const ORIENTATION_PORTRAIT  = 'Portrait';
 
@@ -81,7 +81,7 @@ class WkPdfBuilder
      *
      * @return Process
      */
-    private function getProcess()
+    public function getProcess()
     {
         $builder = new ProcessBuilder();
         $args = array(
@@ -299,5 +299,25 @@ class WkPdfBuilder
     public function useTemporaryFile()
     {
         $this->setOutput(tempnam(sys_get_temp_dir(), 'orkestra_pdf-'));
+    }
+
+    /**
+     * Gets the contents of the PDF
+     *
+     * @return string
+     */
+    public function getContents()
+    {
+        return $this->getPdf()->getContents();
+    }
+
+    /**
+     * Get the underlying PDF object
+     *
+     * @return object
+     */
+    public function getNativeObject()
+    {
+        return $this;
     }
 }

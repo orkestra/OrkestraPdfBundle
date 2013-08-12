@@ -12,10 +12,14 @@ class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new WkPdfBuilder('wkhtmltopdf');
         $builder->useTemporaryFile();
         $builder->setInput('<strong>This is a test</strong>');
-        $pdf = $builder->getPdf();
+
+        $process = $builder->getProcess();
+        $pdf     = $builder->getPdf();
 
         $data = $pdf->getContents();
 
+        // TODO: There must be a better way to assert success...
         $this->assertNotEmpty($data);
+        $this->assertStringStartsWith('echo "<strong>This is a test</strong>" | \'wkhtmltopdf\'', $process->getCommandLine());
     }
 }
