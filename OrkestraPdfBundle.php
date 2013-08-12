@@ -19,6 +19,10 @@ class OrkestraPdfBundle extends Bundle
      */
     private function initializeTcpdf()
     {
+        if (defined('K_TCPDF_EXTERNAL_CONFIG')) {
+            return;
+        }
+
         define('K_TCPDF_EXTERNAL_CONFIG', true);
 
         /**
