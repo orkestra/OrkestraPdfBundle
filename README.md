@@ -41,11 +41,11 @@ The two main methods to implement are: `doGenerate` and `setDefaultParameters`.
 
 #### doGenerate
 
-This method actually performs the PDF generator. The method takes two parameters, `$parameters` and
+This method actually performs the PDF generation. It takes two parameters, `$parameters` and
 `$options`.
 
-* `$parameters`: An array of data to be sent to the templating engine.
-* `$options`: An array of options to pass to the underlying PDF library.
+* `$parameters` is an array of data to be sent to the templating engine.
+* `$options` is an array of options to pass to the underlying PDF library.
 
 #### setDefaultParameters
 
@@ -120,4 +120,5 @@ my_bundle.invoice_pdf_generator:
   arguments: [ @orkestra.pdf.factory_registry, @templating ]
 ```
 
-`AbstractPdfGenerator`, by default, takes a PDF factory registry and the templating service.
+`AbstractPdfGenerator` by default, takes a PDF factory registry and the templating service. You may
+need to add more dependencies, depending on your implementation.
