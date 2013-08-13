@@ -32,6 +32,20 @@ class TcPdfFactory implements PdfFactoryInterface
      */
     public function create(array $options = array())
     {
+        $options = array_merge(array(
+            'orientation' => 'P',
+            'unit' => 'mm',
+            'format' => 'USLETTER',
+            'unicode' => true,
+            'encoding' => 'UTF-8',
+            'diskcache' => true,
+            'pdfa' => false,
+            'printHeader' => false,
+            'printFooter' => false,
+            'margins' => array(15, 27, 15),
+            'autoPageBreak' => array(true, 25),
+        ), $options);
+
         $pdf = $this->reflClass->newInstanceArgs($this->getConstructorOptions($options));
 
         foreach ($options as $option => $arguments) {

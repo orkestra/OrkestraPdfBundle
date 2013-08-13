@@ -16,6 +16,9 @@ use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Default base class, useful for any PDF generator
+ */
 abstract class AbstractPdfGenerator implements PdfGeneratorInterface
 {
     /**
@@ -43,8 +46,11 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
     /**
      * Performs the PDF generation
      *
+     * Parameters are intended to be passed to the underlying views used to render the PDF
+     * Options are intended to be passed to the underlying PDF to configure it
+     *
      * @param array $parameters An array of parameters to be used to render the PDF
-     * @param array $options    An array of options to be passed to the underlying PdfFactory
+     * @param array $options    An array of options to configure the generator
      *
      * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
@@ -54,7 +60,7 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
      * Generates a new PDF
      *
      * @param array $parameters An array of parameters to be used to render the PDF
-     * @param array $options    An array of options to be passed to the underlying PdfFactory
+     * @param array $options    An array of options to configure the generator
      *
      * @return \Orkestra\Bundle\PdfBundle\Pdf\PdfInterface
      */
@@ -112,35 +118,8 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
      * Set allowed, required and default options
      *
      * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
-     *
-     * @todo These are all specific to TCPDF
      */
     protected function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setOptional(array(
-            'creator',
-            'author',
-            'title',
-            'subject',
-            'keywords',
-            'defaultMonospacedFont',
-            'imageScale',
-            'languageArray',
-            'font',
-        ));
-
-        $resolver->setDefaults(array(
-            'orientation' => 'P',
-            'unit' => 'mm',
-            'format' => 'USLETTER',
-            'unicode' => true,
-            'encoding' => 'UTF-8',
-            'diskcache' => true,
-            'pdfa' => false,
-            'printHeader' => false,
-            'printFooter' => false,
-            'margins' => array(15, 27, 15),
-            'autoPageBreak' => array(true, 25),
-        ));
     }
 }
