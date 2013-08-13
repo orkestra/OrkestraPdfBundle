@@ -52,12 +52,19 @@ This method actually performs the PDF generation. It takes two parameters, `$par
 This method configures an `OptionsResolver` and allows specification of required and available
 parameters that the Generator supports.
 
-NOTE: There's also a `setDefaultOptions` method available.
+NOTE: There's also a `setDefaultOptions` method available. Parameters are intended to be passed
+to the templating engine, things like entities and collections. Options are intended to allow
+configuration of the generator at runtime.
 
 #### Example InvoiceGenerator implementation
 
 ```php
 <?php
+
+namespace MyBundle\PdfGenerator;
+
+use Orkestra\Bundle\PdfBundle\Generator\AbstractPdfGenerator;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class InvoiceGenerator extends AbstractPdfGenerator
 {
