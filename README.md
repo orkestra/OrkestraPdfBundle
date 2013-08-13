@@ -58,9 +58,7 @@ configuration of the generator at runtime.
 
 #### Example implementation: InvoiceGenerator
 
-In this example, we use the WkPdf adapter to build a PDF. You can render templates in your
-applications configured templating engines using the built-in
-`AbstractPdfGenerator->render($template, array $paramters)` method.
+In this example, we use the WkPdf adapter and the built in templating engine to render a PDF.
 
 ```php
 <?php
@@ -116,13 +114,11 @@ class InvoiceGenerator extends AbstractPdfGenerator
 #### Useful methods
 
 `AbstractPdfGenerator->createPdf($type, $options)` wraps the PDF factory registry. As the first
-parameter, pass the type of PDF and options to configure it.
+parameter, pass the type of PDF and options to configure it. Available PDF types: `tcpdf`, `wkpdf`,
+and `zendpdf`.
 
-Available PDF types to be used with `AbstractPdfGenerator->createPdf($type, $options)`:
-
-* TCPDF:       `tcpdf`
-* wkhtmltopdf: `wkpdf`
-* Zend PDF:    `zendpdf`
+`AbstractPdfGenerator->render($template, array $parameters = array())` uses the application's templating
+engine to render templates for use in generating the content for the PDF.
 
 
 #### Registering your generator
