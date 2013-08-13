@@ -39,7 +39,7 @@ All Generators should implement `PdfGeneratorInterface`. Additionally, a base cl
 
 The two main methods to implement are: `doGenerate` and `setDefaultParameters`.
 
-#### doGenerate
+#### Implementing the  `doGenerate` method
 
 This method actually performs the PDF generation. It takes two parameters, `$parameters` and
 `$options`.
@@ -47,7 +47,7 @@ This method actually performs the PDF generation. It takes two parameters, `$par
 * `$parameters` is an array of data to be sent to the templating engine.
 * `$options` is an array of options to pass to the underlying PDF library.
 
-#### setDefaultParameters
+#### Implementing the `setDefaultParameters` method
 
 This method configures an `OptionsResolver` and allows specification of required and available
 parameters that the Generator supports.
@@ -56,7 +56,11 @@ NOTE: There's also a `setDefaultOptions` method available. Parameters are intend
 to the templating engine, things like entities and collections. Options are intended to allow
 configuration of the generator at runtime.
 
-#### Example InvoiceGenerator implementation
+#### Example implementation: InvoiceGenerator
+
+In this example, we use the WkPdf adapter to build a PDF. You can render templates in your
+applications configured templating engines using the built-in
+`AbstractPdfGenerator->render($template, array $paramters)` method.
 
 ```php
 <?php
@@ -121,7 +125,7 @@ Available PDF types to be used with `AbstractPdfGenerator->createPdf($type, $opt
 * Zend PDF:    `zendpdf`
 
 
-## Registering your generator
+#### Registering your generator
 
 In services.yml:
 
@@ -133,3 +137,30 @@ my_bundle.invoice_pdf_generator:
 
 `AbstractPdfGenerator` by default, takes a PDF factory registry and the templating service. You may
 need to add more dependencies, depending on your implementation.
+
+
+### Using your service
+
+From within one of your controllers:
+
+```php
+class MyController extends Controller
+{
+    // ...
+    public function someAction()
+    {
+        // Fetch the invoice from somewhere
+        $invoice = $this->getInvoice();
+
+        $generator = $this->get('my_bundle.invoice_pdf_generator');
+
+        $pdf = $generator->generate(array('invoice' => $invoice'));
+
+        // Write the PDF to a file
+        file_put_contents('/some/path/to.pdf', $pdf);
+
+        // Output the PDF to the browser
+        return new Response($pdf, 200, array('Content-type' => 'application/pdf'));
+    }
+}
+```
