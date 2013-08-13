@@ -71,12 +71,16 @@ class InvoiceGenerator extends AbstractPdfGenerator
      */
     protected function doGenerate(array $parameters, array $options)
     {
-        /** @var \Orkestra\Bundle\PdfBundle\Pdf\WkPdfBuilder $builder */
-        $builder = $this->createPdf('wkpdf', $options);
+        // Use the createPdf method to create the desired type of PDF
+        $pdf = $this->createPdf('wkpdf', $options);
+
+        // Call any native methods on the underlying library object
+        $builder = $pdf->getNativeObject();
         $builder->useTemporaryFile();
         $builder->setInput($this->render('MyBundle:Pdf\Invoice:template.html.twig', $parameters));
 
-        return $builder->getPdf();
+        // Return the original PDF, calling getContents to retrieve the rendered content
+        return $pdf;
     }
 
     /**
