@@ -17,7 +17,7 @@ use Symfony\Component\Process\ProcessBuilder;
 /**
  * Wrapper for a PDF generated using wkhtmltopdf
  */
-class WkPdfBuilder implements PdfInterface
+class WkPdfBuilder
 {
     const ORIENTATION_PORTRAIT  = 'Portrait';
 
@@ -31,16 +31,6 @@ class WkPdfBuilder implements PdfInterface
      * @var string
      */
     private $executable;
-
-    /**
-     * @var WkPdf
-     */
-    private $pdf;
-
-    /**
-     * @var bool
-     */
-    private $dirty = false;
 
     /**
      * @var array
@@ -71,12 +61,12 @@ class WkPdfBuilder implements PdfInterface
      * @return WkPdf
      * @throws \RuntimeException
      */
-    private function render()
+    public function render()
     {
         $process = $this->getProcess();
         $process->run();
         if (0 === $process->getExitCode()) {
-            return new WkPdf($this->getOption('output'), $this);
+            return file_get_contents($this->getOption('output'));
         }
 
         throw new \RuntimeException(sprintf('Unable to render PDF. Process exited with "%s" (code: %s)', $process->getExitCodeText(), $process->getExitCode()));
@@ -113,20 +103,6 @@ class WkPdfBuilder implements PdfInterface
     }
 
     /**
-     * Renders the PDF and returns it
-     *
-     * @return WkPdf
-     */
-    public function getPdf()
-    {
-        if ($this->dirty) {
-            $this->pdf = $this->render();
-        }
-
-        return $this->pdf;
-    }
-
-    /**
      * Set options on this object in bulk
      *
      * @param array $options
@@ -153,7 +129,6 @@ class WkPdfBuilder implements PdfInterface
         }
 
         $this->options[$option] = $value;
-        $this->dirty = true;
     }
 
     /**
@@ -308,25 +283,5 @@ class WkPdfBuilder implements PdfInterface
     public function useTemporaryFile()
     {
         $this->setOutput(tempnam(sys_get_temp_dir(), 'orkestra_pdf-'));
-    }
-
-    /**
-     * Gets the contents of the PDF
-     *
-     * @return string
-     */
-    public function getContents()
-    {
-        return $this->getPdf()->getContents();
-    }
-
-    /**
-     * Get the underlying PDF object
-     *
-     * @return object
-     */
-    public function getNativeObject()
-    {
-        return $this;
     }
 }

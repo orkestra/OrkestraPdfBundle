@@ -20,11 +20,6 @@ namespace Orkestra\Bundle\PdfBundle\Pdf;
 class WkPdf implements PdfInterface
 {
     /**
-     * @var string
-     */
-    private $path;
-
-    /**
      * @var WkPdfBuilder
      */
     private $builder;
@@ -32,12 +27,10 @@ class WkPdf implements PdfInterface
     /**
      * Constructor
      *
-     * @param string       $path
      * @param WkPdfBuilder $builder The builder that built this PDF
      */
-    public function __construct($path, WkPdfBuilder $builder = null)
+    public function __construct(WkPdfBuilder $builder = null)
     {
-        $this->path    = $path;
         $this->builder = $builder;
     }
 
@@ -48,7 +41,7 @@ class WkPdf implements PdfInterface
      */
     public function getContents()
     {
-        return file_get_contents($this->path);
+        return $this->builder->render();
     }
 
     /**

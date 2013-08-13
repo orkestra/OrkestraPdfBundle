@@ -22,9 +22,8 @@ class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->setInput('<strong>This is a test</strong>');
 
         $process = $builder->getProcess();
-        $pdf     = $builder->getPdf();
 
-        $data = $pdf->getContents();
+        $data = $builder->render();
 
         // TODO: There must be a better way to assert success...
         $this->assertNotEmpty($data);
