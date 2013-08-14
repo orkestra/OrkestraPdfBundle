@@ -153,10 +153,10 @@ class MyController extends Controller
         $pdf = $generator->generate(array('invoice' => $invoice));
 
         // Write the PDF to a file
-        file_put_contents('/some/path/to.pdf', $pdf);
+        file_put_contents('/some/path/to.pdf', $pdf->getContents());
 
         // Output the PDF to the browser
-        return new Response($pdf, 200, array('Content-type' => 'application/pdf'));
+        return new Response($pdf->getContents(), 200, array('Content-type' => 'application/pdf'));
     }
 }
 ```
