@@ -13,7 +13,8 @@ namespace Orkestra\Bundle\PdfBundle\Factory;
 
 use Orkestra\Bundle\PdfBundle\Pdf\PdfInterface;
 use Orkestra\Bundle\PdfBundle\Pdf\WkPdf;
-use Orkestra\Bundle\PdfBundle\Pdf\WkPdfBuilder;
+use Orkestra\Bundle\PdfBundle\Pdf\WkPdf\WkPdfBuilder;
+use Symfony\Component\Process\ProcessBuilder;
 
 class WkPdfFactory implements PdfFactoryInterface
 {
@@ -41,7 +42,18 @@ class WkPdfFactory implements PdfFactoryInterface
      */
     public function create(array $options = array())
     {
-        return new WkPdf(new WkPdfBuilder($this->executable, $options));
+        return new WkPdf(new WkPdfBuilder($this->createProcessBuilder(), $options));
+    }
+
+    /**
+     * @return ProcessBuilder
+     */
+    private function createProcessBuilder()
+    {
+        $builder = new ProcessBuilder();
+        $builder->setPrefix($this->executable);
+
+        return $builder;
     }
 
     /**
