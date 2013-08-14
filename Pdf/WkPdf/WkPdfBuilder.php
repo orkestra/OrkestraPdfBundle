@@ -9,49 +9,40 @@
  * that was distributed with this source code.
  */
 
-namespace Orkestra\Bundle\PdfBundle\Pdf;
+namespace Orkestra\Bundle\PdfBundle\Pdf\WkPdf;
 
+use Orkestra\Bundle\PdfBundle\Pdf\WkPdf;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
- * Wrapper for a PDF generated using wkhtmltopdf
+ * Wrapper for using the wkhtmltopdf binary to generate PDFs
  */
-class WkPdfBuilder
+class WkPdfBuilder implements WkPdfBuilderInterface
 {
-    const ORIENTATION_PORTRAIT  = 'Portrait';
-
-    const ORIENTATION_LANDSCAPE = 'Landscape';
-
-    const SIZE_A4 = 'A4';
-
-    const SIZE_LETTER = 'Letter';
-
     /**
-     * @var string
+     * @var ProcessBuilder
      */
-    private $executable;
+    private $processBuilder;
 
     /**
      * @var array
      */
     private $options = array(
         'title'       => null,
-        'orientation' => self::ORIENTATION_PORTRAIT,
-        'size'        => self::SIZE_LETTER,
-        'toc'         => false,
-        'uri'         => null,
+        'orientation' => WkPdfBuilderInterface::ORIENTATION_PORTRAIT,
+        'size'        => WkPdfBuilderInterface::SIZE_LETTER,
         'output'      => null,
         'input'       => null
     );
 
     /**
-     * @param string $executable Path to wkhtmltopdf binary
-     * @param array  $options    Options for PDF rendering
+     * @param ProcessBuilder $processBuilder ProcessBuilder instance to be used
+     * @param array          $options        Options for PDF rendering
      */
-    public function __construct($executable, array $options = array())
+    public function __construct(ProcessBuilder $processBuilder, array $options = array())
     {
-        $this->executable = $executable;
+        $this->processBuilder = $processBuilder;
         $this->setOptions($options);
     }
 
@@ -82,7 +73,6 @@ class WkPdfBuilder
      */
     public function getProcess()
     {
-        $builder = new ProcessBuilder();
         $args = array(
             '--orientation',
             $this->getOrientation(),
@@ -92,10 +82,9 @@ class WkPdfBuilder
             $this->getOutput()
         );
 
-        $builder->setPrefix($this->executable);
-        $builder->setArguments($args);
+        $this->processBuilder->setArguments($args);
 
-        $process = $builder->getProcess();
+        $process = $this->processBuilder->getProcess();
 
         $process->setCommandLine(sprintf('echo "%s" | %s', addslashes($this->getInput()), $process->getCommandLine()));
 
@@ -146,22 +135,6 @@ class WkPdfBuilder
     }
 
     /**
-     * @param string $executable
-     */
-    public function setExecutable($executable)
-    {
-        $this->executable = $executable;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExecutable()
-    {
-        return $this->executable;
-    }
-
-    /**
      * @param string $orientation
      */
     public function setOrientation($orientation)
@@ -196,17 +169,17 @@ class WkPdfBuilder
     /**
      * @param string $size
      */
-    public function setSize($size)
+    public function setPageSize($size)
     {
-        $this->setOption('size', $size);
+        $this->setOption('page-size', $size);
     }
 
     /**
      * @return string
      */
-    public function getSize()
+    public function getPageSize()
     {
-        return $this->getOption('size');
+        return $this->getOption('page-size');
     }
 
     /**
@@ -223,38 +196,6 @@ class WkPdfBuilder
     public function getTitle()
     {
         return $this->getOption('title');
-    }
-
-    /**
-     * @param boolean $toc
-     */
-    public function setToc($toc)
-    {
-        $this->setOption('toc', $toc);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getToc()
-    {
-        return $this->getOption('toc');
-    }
-
-    /**
-     * @param string $uri
-     */
-    public function setUri($uri)
-    {
-        $this->setOption('uri', $uri);
-    }
-
-    /**
-     * @return string
-     */
-    public function getUri()
-    {
-        return $this->getOption('uri');
     }
 
     /**
