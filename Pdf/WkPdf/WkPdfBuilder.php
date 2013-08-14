@@ -31,7 +31,7 @@ class WkPdfBuilder implements WkPdfBuilderInterface
     private $options = array(
         'title'       => null,
         'orientation' => WkPdfBuilderInterface::ORIENTATION_PORTRAIT,
-        'size'        => WkPdfBuilderInterface::SIZE_LETTER,
+        'page-size'   => WkPdfBuilderInterface::SIZE_LETTER,
         'output'      => null,
         'input'       => null
     );
@@ -77,7 +77,7 @@ class WkPdfBuilder implements WkPdfBuilderInterface
             '--orientation',
             $this->getOrientation(),
             '--page-size',
-            $this->getSize(),
+            $this->getPageSize(),
             '-',
             $this->getOutput()
         );
