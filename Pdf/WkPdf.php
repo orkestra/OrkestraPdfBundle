@@ -11,6 +11,8 @@
 
 namespace Orkestra\Bundle\PdfBundle\Pdf;
 
+use Orkestra\Bundle\PdfBundle\Pdf\WkPdf\WkPdfBuilder;
+
 /**
  * Wrapper for a PDF generated using wkhtmltopdf
  *
