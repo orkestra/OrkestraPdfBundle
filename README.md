@@ -17,7 +17,17 @@ Using composer, in your project's root directory:
 composer require "orkestra/pdf-bundle 1.0.x-dev"
 ```
 
-
+```
+// app/AppKernel.php
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new Orkestra\Bundle\PdfBundle\OrkestraPdfBundle(),
+        // ...
+    );
+}
+```
 Configuration
 -------------
 
