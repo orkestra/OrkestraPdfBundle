@@ -1,6 +1,8 @@
 OrkestraPdfBundle
 =================
 
+[![Build Status](https://travis-ci.org/orkestra/OrkestraPdfBundle.png?branch=develop)](https://travis-ci.org/orkestra/OrkestraPdfBundle)
+
 Abstracts different PDF generation libraries. Currently supports TCPDF, Zend PDF and wkhtmltopdf.
 
 This bundle is under active development and is prone to backwards compatibility breaks.
@@ -22,6 +24,7 @@ Configuration
 Configuration defaults reference:
 
 ```yml
+# config.yml
 orkestra_pdf:
   cache_dir:  %kernel.cache_dir%/orkestra_pdf                  # Cache directory
   tcpdf:
