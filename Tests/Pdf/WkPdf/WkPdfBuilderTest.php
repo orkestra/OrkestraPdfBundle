@@ -29,13 +29,12 @@ class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->setOption('footer-center', 'Some footer');
         $builder->setOrientation(WkPdfBuilderInterface::ORIENTATION_LANDSCAPE);
 
-        $process = $builder->getProcess();
-
         $data        = $builder->render();
-        $commandLine = $process->getCommandLine();
+        $commandLine = $builder->getProcess()->getCommandLine();
 
         $this->assertNotEmpty($data);
         $this->assertStringStartsWith('echo "<strong>This is a test</strong>" | \'wkhtmltopdf\'', $commandLine);
+        $this->assertContains(sprintf("'--page-size' '%s'", WkPdfBuilderInterface::SIZE_LETTER), $commandLine, 'Page size defaults to LETTER');
         $this->assertContains(sprintf("'--orientation' '%s'", WkPdfBuilderInterface::ORIENTATION_LANDSCAPE), $commandLine);
         $this->assertContains('--collate', $commandLine);
         $this->assertContains(sprintf("'--footer-center' '%s'", 'Some footer'), $commandLine);
