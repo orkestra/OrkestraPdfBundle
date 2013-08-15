@@ -21,6 +21,15 @@ use Symfony\Component\Process\ProcessBuilder;
 class WkPdfBuilder implements WkPdfBuilderInterface
 {
     /**
+     * @var array Special options that should not be prefixed with -- on the command line
+     */
+    private static $nonPrefixedOptions = array(
+        'cover',
+        'page',
+        'toc'
+    );
+
+    /**
      * @var ProcessBuilder
      */
     private $processBuilder;
@@ -95,7 +104,11 @@ class WkPdfBuilder implements WkPdfBuilderInterface
                 continue;
             }
 
-            $this->processBuilder->add(sprintf('--%s', $option));
+            if (!in_array($option, static::$nonPrefixedOptions)) {
+                $option = sprintf('--%s', $option);
+            }
+
+            $this->processBuilder->add($option);
 
             if (true !== $value) {
                 $this->processBuilder->add($value);
