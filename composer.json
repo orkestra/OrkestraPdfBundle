@@ -20,9 +20,9 @@
     "symfony/symfony": "~2.3"
   },
   "suggest": {
-    "tcpdf": "Support for decent but very slow PDF generation",
+    "tcpdf": "Support for good but slow PDF generation",
     "zend/pdf": "Support for some basic PDF generation functionality, notably merging PDFs",
-    "wkhtmltopdf": "Fantastic support for PDF generation using the webkit HTML rendering engine"
+    "wkhtmltopdf": "Supports PDF generation using the webkit HTML rendering engine"
   },
   "autoload": {
     "psr-0": { "Orkestra\\Bundle\\PdfBundle": "" }
