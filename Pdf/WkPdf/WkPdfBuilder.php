@@ -26,14 +26,22 @@ class WkPdfBuilder implements WkPdfBuilderInterface
     private $processBuilder;
 
     /**
+     * @var string HTML string to feed into wkhtmltopdf
+     */
+    private $input;
+
+    /**
+     * @var string File to write rendered PDF to
+     */
+    private $output;
+
+    /**
      * @var array
      */
     private $options = array(
         'title'       => null,
         'orientation' => WkPdfBuilderInterface::ORIENTATION_PORTRAIT,
         'page-size'   => WkPdfBuilderInterface::SIZE_LETTER,
-        'output'      => null,
-        'input'       => null
     );
 
     /**
@@ -57,10 +65,16 @@ class WkPdfBuilder implements WkPdfBuilderInterface
         $process = $this->getProcess();
         $process->run();
         if (0 === $process->getExitCode()) {
-            return file_get_contents($this->getOption('output'));
+            return file_get_contents($this->getOutput());
         }
 
-        throw new \RuntimeException(sprintf('Unable to render PDF. Process exited with "%s" (code: %s)', $process->getExitCodeText(), $process->getExitCode()));
+        throw new \RuntimeException(
+            sprintf('Unable to render PDF. Command "%s" exited with "%s" (code: %s)',
+                $process->getCommandLine(),
+                $process->getExitCodeText(),
+                $process->getExitCode()
+            )
+        );
     }
 
     /**
@@ -73,19 +87,23 @@ class WkPdfBuilder implements WkPdfBuilderInterface
      */
     public function getProcess()
     {
-        $args = array(
-            '--orientation',
-            $this->getOrientation(),
-            '--page-size',
-            $this->getPageSize(),
-            '-',
-            $this->getOutput()
-        );
+        $this->processBuilder->setArguments(array());
 
-        $this->processBuilder->setArguments($args);
+        foreach ($this->options as $option => $value) {
+            if (!$value) {
+                continue;
+            }
+
+            $this->processBuilder->add(sprintf('--%s', $option));
+
+            if (true !== $value) {
+                $this->processBuilder->add($value);
+            }
+        }
+
+        $this->processBuilder->add('-')->add($this->getOutput());
 
         $process = $this->processBuilder->getProcess();
-
         $process->setCommandLine(sprintf('echo "%s" | %s', addslashes($this->getInput()), $process->getCommandLine()));
 
         return $process;
@@ -113,10 +131,6 @@ class WkPdfBuilder implements WkPdfBuilderInterface
      */
     public function setOption($option, $value)
     {
-        if (!array_key_exists($option, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('Unknown option "%s"', $option));
-        }
-
         $this->options[$option] = $value;
     }
 
@@ -155,7 +169,7 @@ class WkPdfBuilder implements WkPdfBuilderInterface
      */
     public function setOutput($output)
     {
-        $this->setOption('output', $output);
+        $this->output = $output;
     }
 
     /**
@@ -163,7 +177,7 @@ class WkPdfBuilder implements WkPdfBuilderInterface
      */
     public function getOutput()
     {
-        return $this->getOption('output');
+        return $this->output;
     }
 
     /**
@@ -205,7 +219,7 @@ class WkPdfBuilder implements WkPdfBuilderInterface
      */
     public function setInput($html)
     {
-        $this->setOption('input', $html);
+        $this->input = $html;
     }
 
     /**
@@ -215,7 +229,7 @@ class WkPdfBuilder implements WkPdfBuilderInterface
      */
     public function getInput()
     {
-        return $this->getOption('input');
+        return $this->input;
     }
 
     /**

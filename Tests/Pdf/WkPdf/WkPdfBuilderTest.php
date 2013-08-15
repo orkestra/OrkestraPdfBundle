@@ -12,6 +12,7 @@
 namespace Orkestra\Bundle\PdfBundle\Tests\Pdf\WkPdf;
 
 use Orkestra\Bundle\PdfBundle\Pdf\WkPdf\WkPdfBuilder;
+use Orkestra\Bundle\PdfBundle\Pdf\WkPdf\WkPdfBuilderInterface;
 use Symfony\Component\Process\ProcessBuilder;
 
 class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase
@@ -24,13 +25,20 @@ class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new WkPdfBuilder($processBuilder);
         $builder->useTemporaryFile();
         $builder->setInput('<strong>This is a test</strong>');
+        $builder->setOption('collate', true);
+        $builder->setOption('footer-center', 'Some footer');
+        $builder->setOrientation(WkPdfBuilderInterface::ORIENTATION_LANDSCAPE);
 
         $process = $builder->getProcess();
 
-        $data = $builder->render();
+        $data        = $builder->render();
+        $commandLine = $process->getCommandLine();
 
         // TODO: There must be a better way to assert success...
         $this->assertNotEmpty($data);
-        $this->assertStringStartsWith('echo "<strong>This is a test</strong>" | \'wkhtmltopdf\'', $process->getCommandLine());
+        $this->assertStringStartsWith('echo "<strong>This is a test</strong>" | \'wkhtmltopdf\'', $commandLine);
+        $this->assertContains(sprintf("'--orientation' '%s'", WkPdfBuilderInterface::ORIENTATION_LANDSCAPE), $commandLine);
+        $this->assertContains('--collate', $commandLine);
+        $this->assertContains(sprintf("'--footer-center' '%s'", 'Some footer'), $commandLine);
     }
 }
