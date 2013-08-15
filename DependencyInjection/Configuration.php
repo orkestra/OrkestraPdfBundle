@@ -26,13 +26,17 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->children()
             ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/orkestra_pdf')->end()
-            ->arrayNode('tcpdf')->children()
-                ->scalarNode('root_dir')->defaultValue('%kernel.root_dir%/../vendor/tecnick.com/tcpdf')->end()
-                ->scalarNode('fonts_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/fonts')->end()
-                ->scalarNode('image_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/images')->end()
+            ->arrayNode('tcpdf')
+                ->children()
+                    ->scalarNode('root_dir')->defaultValue('%kernel.root_dir%/../vendor/tecnick.com/tcpdf')->end()
+                    ->scalarNode('fonts_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/fonts')->end()
+                    ->scalarNode('image_dir')->defaultValue('%orkestra.pdf.tcpdf.root_dir%/images')->end()
+                ->end()
             ->end()
-            ->arrayNode('wkhtmltopdf')->children()
-                ->scalarNode('binary_path')->defaultValue('wkhtmltopdf')->end()
+            ->arrayNode('wkhtmltopdf')
+                ->children()
+                    ->scalarNode('binary_path')->defaultValue('wkhtmltopdf')->end()
+                ->end()
             ->end()
         ->end();
 
