@@ -69,10 +69,11 @@ class WkPdfBuilder implements WkPdfBuilderInterface
         }
 
         throw new \RuntimeException(
-            sprintf('Unable to render PDF. Command "%s" exited with "%s" (code: %s)',
+            sprintf('Unable to render PDF. Command "%s" exited with "%s" (code: %s): %s',
                 $process->getCommandLine(),
                 $process->getExitCodeText(),
-                $process->getExitCode()
+                $process->getExitCode(),
+                $process->getErrorOutput()
             )
         );
     }
