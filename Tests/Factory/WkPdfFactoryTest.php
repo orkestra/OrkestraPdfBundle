@@ -17,10 +17,14 @@ class WkPdfFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $factory = new WkPdfFactory();
+        $factory = new WkPdfFactory('/path/to/wkhtmltopdf');
 
-        $pdf = $factory->create();
+        $pdf = $factory->create(array(
+            'some-option' => 'value'
+        ));
 
         $this->assertInstanceOf('Orkestra\Bundle\PdfBundle\Pdf\WkPdf\WkPdfBuilderInterface', $pdf->getNativeObject());
+        $this->assertContains('/path/to/wkhtmltopdf', $pdf->getNativeObject()->getProcess()->getCommandLine());
+        $this->assertEquals('value', $pdf->getNativeObject()->getOption('some-option'));
     }
 }
