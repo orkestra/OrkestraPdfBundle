@@ -85,7 +85,7 @@ class WkPdfBuilder implements WkPdfBuilderInterface
      *
      * @return Process
      */
-    public function getProcess()
+    private function getProcess()
     {
         $this->processBuilder->setArguments(array());
 

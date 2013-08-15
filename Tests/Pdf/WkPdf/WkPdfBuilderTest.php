@@ -29,16 +29,21 @@ class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->setOption('footer-center', 'Some footer');
         $builder->setOrientation(WkPdfBuilderInterface::ORIENTATION_LANDSCAPE);
 
-        $process = $builder->getProcess();
-
         $data        = $builder->render();
-        $commandLine = $process->getCommandLine();
+        $commandLine = $this->getProcess($builder)->getCommandLine();
 
-        // TODO: There must be a better way to assert success...
         $this->assertNotEmpty($data);
         $this->assertStringStartsWith('echo "<strong>This is a test</strong>" | \'wkhtmltopdf\'', $commandLine);
         $this->assertContains(sprintf("'--orientation' '%s'", WkPdfBuilderInterface::ORIENTATION_LANDSCAPE), $commandLine);
         $this->assertContains('--collate', $commandLine);
         $this->assertContains(sprintf("'--footer-center' '%s'", 'Some footer'), $commandLine);
+    }
+
+    private function getProcess(WkPdfBuilder $builder)
+    {
+        $reflMethod = new \ReflectionMethod($builder, 'getProcess');
+        $reflMethod->setAccessible(true);
+
+        return $reflMethod->invoke($builder);
     }
 }
