@@ -19,8 +19,13 @@ class TcPdfFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new TcPdfFactory();
 
-        $pdf = $factory->create();
+        $pdf = $factory->create(array(
+            'footerMargin' => 25,
+            'orientation'  => 'L'
+        ));
 
         $this->assertInstanceOf('TCPDF', $pdf->getNativeObject());
+        $this->assertEquals(25, $pdf->getNativeObject()->getFooterMargin());
+        $this->assertAttributeEquals('L', 'CurOrientation', $pdf->getNativeObject());
     }
 }
