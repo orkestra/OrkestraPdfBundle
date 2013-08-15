@@ -10,6 +10,7 @@ services:
     class: %orkestra.pdf.tcpdf_factory.class%
   orkestra.pdf.wkpdf_factory:
     class: %orkestra.pdf.wkpdf_factory.class%
+    arguments: [ %orkestra.pdf.wkhtmltopdf.binary_path% ]
   orkestra.pdf.zendpdf_factory:
     class: %orkestra.pdf.zendpdf_factory.class%
 

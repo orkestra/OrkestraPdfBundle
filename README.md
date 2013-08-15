@@ -16,6 +16,23 @@ composer require "orkestra/pdf-bundle 1.0.x-dev"
 ```
 
 
+Configuration
+-------------
+
+Configuration defaults reference:
+
+```yml
+orkestra_pdf:
+  cache_dir:  %kernel.cache_dir%/orkestra_pdf                  # Cache directory
+  tcpdf:
+    root_dir:   %kernel.root_dir%/../vendor/tecnick.com/tcpdf  # Path to the tcpdf installation
+    fonts_dir:  %orkestra.pdf.tcpdf.root_dir%/fonts            # Path to tcpdf fonts
+    image_dir:  %orkestra.pdf.tcpdf.root_dir%/images           # Path to tcpdf images
+  wkhtmltopdf:
+    binary_path:  wkhtmltopdf                                  # Path to the wkhtmltopdf binary
+```
+
+
 Usage
 -----
 

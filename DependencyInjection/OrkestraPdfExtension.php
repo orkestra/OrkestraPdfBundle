@@ -16,11 +16,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
-/**
- * This is the class that loads and manages your bundle configuration
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
- */
 class OrkestraPdfExtension extends Extension
 {
     /**
@@ -31,12 +26,24 @@ class OrkestraPdfExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $this->configureTcpdf($container, $config['tcpdf']);
+        $this->configureWkhtmltopdf($container, $config['wkhtmltopdf']);
+
         $container->setParameter('orkestra.pdf.cache_dir', $config['cache_dir']);
-        $container->setParameter('orkestra.pdf.tcpdf.root_dir', $config['root_dir']);
-        $container->setParameter('orkestra.pdf.tcpdf.fonts_dir', $config['fonts_dir']);
-        $container->setParameter('orkestra.pdf.tcpdf.image_dir', $config['image_dir']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+    }
+
+    private function configureTcpdf(ContainerBuilder $container, array $config)
+    {
+        $container->setParameter('orkestra.pdf.tcpdf.root_dir', $config['root_dir']);
+        $container->setParameter('orkestra.pdf.tcpdf.fonts_dir', $config['fonts_dir']);
+        $container->setParameter('orkestra.pdf.tcpdf.image_dir', $config['image_dir']);
+    }
+
+    private function configureWkhtmltopdf(ContainerBuilder $container, array $config)
+    {
+        $container->setParameter('orkestra.pdf.wkhtmltopdf.binary_path', $config['binary_path']);
     }
 }
