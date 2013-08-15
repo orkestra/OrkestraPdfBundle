@@ -30,10 +30,8 @@ class WkPdfBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->setOption('toc', true);
         $builder->setOrientation(WkPdfBuilderInterface::ORIENTATION_LANDSCAPE);
 
-        $data        = $builder->render();
         $commandLine = $builder->getProcess()->getCommandLine();
 
-        $this->assertNotEmpty($data);
         $this->assertStringStartsWith('echo "<strong>This is a test</strong>" | \'wkhtmltopdf\'', $commandLine);
         $this->assertContains(sprintf("'--page-size' '%s'", WkPdfBuilderInterface::SIZE_LETTER), $commandLine, 'Page size defaults to LETTER');
         $this->assertContains(sprintf("'--orientation' '%s'", WkPdfBuilderInterface::ORIENTATION_LANDSCAPE), $commandLine);
