@@ -16,7 +16,7 @@ services:
 
   # Registry
   orkestra.pdf.factory_registry:
-    class: %orkestra.pdf.factory_registry%
+    class: %orkestra.pdf.factory_registry.class%
     calls:
       - [ registerFactory, [ @orkestra.pdf.tcpdf_factory ] ]
       - [ registerFactory, [ @orkestra.pdf.wkpdf_factory ] ]
