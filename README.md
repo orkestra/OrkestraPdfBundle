@@ -47,13 +47,23 @@ Configuration defaults reference:
 ```yml
 # config.yml
 orkestra_pdf:
-  cache_dir:  %kernel.cache_dir%/orkestra_pdf                  # Cache directory
+
+  # Main cache directory
+  cache_dir:  %kernel.cache_dir%/orkestra_pdf
+
   tcpdf:
-    root_dir:   %kernel.root_dir%/../vendor/tecnick.com/tcpdf        # Path to the tcpdf installation
-    fonts_dir:  %kernel.root_dir%/../vendor/tecnick.com/tcpdf/fonts  # Path to tcpdf fonts
-    image_dir:  %kernel.root_dir%/../vendor/tecnick.com/tcpdf/images # Path to tcpdf images
+    # Path to the tcpdf installation
+    root_dir:   %kernel.root_dir%/../vendor/tecnick.com/tcpdf
+
+    # Path to tcpdf fonts
+    fonts_dir:  %kernel.root_dir%/../vendor/tecnick.com/tcpdf/fonts
+
+    # Path to tcpdf images
+    image_dir:  %kernel.root_dir%/../vendor/tecnick.com/tcpdf/images
+
   wkhtmltopdf:
-    binary_path:  wkhtmltopdf                                  # Path to the wkhtmltopdf binary
+    # Path to the wkhtmltopdf binary
+    binary_path:  wkhtmltopdf
 ```
 
 
