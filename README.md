@@ -17,6 +17,8 @@ Using composer, in your project's root directory:
 composer require "orkestra/pdf-bundle 1.0.x-dev"
 ```
 
+Update AppKernel.
+
 ```
 // app/AppKernel.php
 public function registerBundles()
@@ -28,6 +30,13 @@ public function registerBundles()
     );
 }
 ```
+
+In addition, you should add [TCPDF](http://www.tcpdf.org/docs.php) or
+[Zend PDF](https://github.com/zendframework/ZendPdf) to your project, as necessary.
+
+If planning to use wkhtmltopdf, ensure it is installed on your system.
+
+
 Configuration
 -------------
 
@@ -215,7 +224,7 @@ class InvoiceGenerator extends AbstractPdfGenerator
         $builder = $pdf->getNativeObject();
 
         $builder->addPage();
-        
+
         $builder->writeHtmlCell(0, 0, 0, 20, $this->render('MyBundle:Pdf/Invoice:invoiceHead.html.twig', $parameters));
         $builder->writeHtmlCell(0, 0, 20, 43, $this->render('MyBundle:Pdf/Invoice:invoiceIntro.html.twig', $parameters));
         $builder->writeHtmlCell(0, 0, 20, 66, $this->render('MyBundle:Pdf/Invoice:invoiceBody.html.twig', $parameters));
