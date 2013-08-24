@@ -31,6 +31,8 @@ public function registerBundles()
 Configuration
 -------------
 
+No configuration is necessary, unless you want to change default settings.
+
 Configuration defaults reference:
 
 ```yml
@@ -38,9 +40,9 @@ Configuration defaults reference:
 orkestra_pdf:
   cache_dir:  %kernel.cache_dir%/orkestra_pdf                  # Cache directory
   tcpdf:
-    root_dir:   %kernel.root_dir%/../vendor/tecnick.com/tcpdf  # Path to the tcpdf installation
-    fonts_dir:  %orkestra.pdf.tcpdf.root_dir%/fonts            # Path to tcpdf fonts
-    image_dir:  %orkestra.pdf.tcpdf.root_dir%/images           # Path to tcpdf images
+    root_dir:   %kernel.root_dir%/../vendor/tecnick.com/tcpdf        # Path to the tcpdf installation
+    fonts_dir:  %kernel.root_dir%/../vendor/tecnick.com/tcpdf/fonts  # Path to tcpdf fonts
+    image_dir:  %kernel.root_dir%/../vendor/tecnick.com/tcpdf/images # Path to tcpdf images
   wkhtmltopdf:
     binary_path:  wkhtmltopdf                                  # Path to the wkhtmltopdf binary
 ```
