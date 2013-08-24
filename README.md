@@ -118,7 +118,7 @@ class InvoiceGenerator extends AbstractPdfGenerator
         // Call any native methods on the underlying library object
         $builder = $pdf->getNativeObject();
         $builder->useTemporaryFile();
-        $builder->setInput($this->render('MyBundle:Pdf\Invoice:template.html.twig', $parameters));
+        $builder->setInput($this->render('MyBundle:Pdf/Invoice:template.html.twig', $parameters));
 
         // Return the original PDF, calling getContents to retrieve the rendered content
         return $pdf;
@@ -192,3 +192,45 @@ class MyController extends Controller
     }
 }
 ```
+
+
+#### Strategies
+
+##### Using TCPDF to render template fragments
+
+TCPDF can be difficult to use, especially when rendering HTML. Usually, the easiest way to position
+different smaller sections of the page is to make multiple `writeHTML` or `writeHTMLCell` calls on
+the TCPDF object.
+
+Here's an example of the same Invoice Generator from before.
+
+```php
+class InvoiceGenerator extends AbstractPdfGenerator
+{
+    protected function doGenerate(array $parameters, array $options)
+    {
+        $pdf = $this->createPdf('tcpdf', $options);
+
+        /** @var \TCPDF $builder */
+        $builder = $pdf->getNativeObject();
+
+        $builder->addPage();
+        
+        $builder->writeHtmlCell(0, 0, 0, 20, $this->render('MyBundle:Pdf/Invoice:invoiceHead.html.twig', $parameters));
+        $builder->writeHtmlCell(0, 0, 20, 43, $this->render('MyBundle:Pdf/Invoice:invoiceIntro.html.twig', $parameters));
+        $builder->writeHtmlCell(0, 0, 20, 66, $this->render('MyBundle:Pdf/Invoice:invoiceBody.html.twig', $parameters));
+        $builder->writeHtmlCell(0, 0, 20, 165, $this->render('MyBundle:Pdf/Invoice:invoiceFooter.html.twig', $parameters));
+
+        $builder->line(0, 190.5, 215.9, 190.5, array('dash' => 3));
+
+        $builder->writeHtmlCell(0, 0, 21, 200, $this->render('MyBundle:Pdf/Invoice/Detachment:detachmentCompany.html.twig', $parameters));
+        $builder->writeHtmlCell(0, 0, 0, 200, $this->render('MyBundle:Pdf/Invoice/Detachment:detachmentHead.html.twig', $parameters));
+        $builder->writeHtmlCell(0, 0, 19.5, 230, $this->render('MyBundle:Pdf/Invoice/Detachment:detachmentInfo.html.twig', $parameters));
+        $builder->writeHtmlCell(0, 0, 22, 210, $this->render('MyBundle:Pdf/Invoice/Detachment:detachmentDetails.html.twig', $parameters));
+
+        return $pdf;
+    }
+}
+```
+
+**See [TCPDF](http://www.tcpdf.org/docs.php) documentation for more details.**
