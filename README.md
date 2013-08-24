@@ -207,9 +207,9 @@ class MyController extends Controller
 
 ##### Using TCPDF to render template fragments
 
-TCPDF can be difficult to use, especially when rendering HTML. Usually, the easiest way to position
-different smaller sections of the page is to make multiple `writeHTML` or `writeHTMLCell` calls on
-the TCPDF object.
+TCPDF can be difficult to use, especially when rendering HTML. Usually, the easiest way is to
+position different smaller sections of the page, making multiple `writeHTML` or `writeHTMLCell`
+calls on the TCPDF object.
 
 Here's an example of the same Invoice Generator from before.
 
