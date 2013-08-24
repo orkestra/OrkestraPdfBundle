@@ -34,7 +34,8 @@ public function registerBundles()
 In addition, you should add [TCPDF](http://www.tcpdf.org/docs.php) or
 [Zend PDF](https://github.com/zendframework/ZendPdf) to your project, as necessary.
 
-If planning to use wkhtmltopdf, ensure it is installed on your system.
+If planning to use [wkhtmltopdf](http://code.google.com/p/wkhtmltopdf/), ensure it is
+installed on your system.
 
 
 Configuration
