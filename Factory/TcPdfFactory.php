@@ -16,12 +16,7 @@ use ReflectionClass;
 
 class TcPdfFactory implements PdfFactoryInterface
 {
-    protected $reflClass;
-
-    public function __construct()
-    {
-        $this->reflClass = new ReflectionClass('TCPDF');
-    }
+    protected $reflClassCache = array();
 
     /**
      * Create a new TcPdf
@@ -32,6 +27,8 @@ class TcPdfFactory implements PdfFactoryInterface
      */
     public function create(array $options = array())
     {
+        $reflClass = $this->getReflectionClass($options);
+
         $options = array_merge(array(
             'orientation' => 'P',
             'unit' => 'mm',
@@ -46,7 +43,7 @@ class TcPdfFactory implements PdfFactoryInterface
             'autoPageBreak' => array(true, 25),
         ), $options);
 
-        $pdf = $this->reflClass->newInstanceArgs($this->getConstructorOptions($options));
+        $pdf = $reflClass->newInstanceArgs($this->getConstructorOptions($options));
 
         foreach ($options as $option => $arguments) {
             if (is_callable(array($pdf, 'set' . $option))) {
@@ -98,6 +95,22 @@ class TcPdfFactory implements PdfFactoryInterface
         );
 
         return array_values($ctorOptions);
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return \ReflectionClass
+     */
+    private function getReflectionClass(array $options)
+    {
+        $className = isset($options['className']) ? $options['className'] : 'TCPDF';
+
+        if (!isset($this->reflClassCache[$className])) {
+            $this->reflClassCache[$className] = new \ReflectionClass($className);
+        }
+
+        return $this->reflClassCache[$className];
     }
 
     /**

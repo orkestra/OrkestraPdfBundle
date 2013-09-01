@@ -28,4 +28,20 @@ class TcPdfFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(25, $pdf->getNativeObject()->getFooterMargin());
         $this->assertAttributeEquals('L', 'CurOrientation', $pdf->getNativeObject());
     }
+
+    public function testCreateCustomSubclass()
+    {
+        $factory = new TcPdfFactory();
+
+        $pdf = $factory->create(array(
+            'className' => 'Orkestra\Bundle\PdfBundle\Tests\Factory\TestTcPdf'
+        ));
+
+        $this->assertInstanceOf('Orkestra\Bundle\PdfBundle\Tests\Factory\TestTcPdf', $pdf->getNativeObject());
+    }
+}
+
+class TestTcPdf extends \TCPDF
+{
+
 }
