@@ -254,3 +254,31 @@ class InvoiceGenerator extends AbstractPdfGenerator
 ```
 
 **See [TCPDF](http://www.tcpdf.org/docs.php) documentation for more details.**
+
+##### Using custom subclasses with TCPDF
+
+TCPDF offers the ability to extend the TCPDF class directly to implement, for example, page
+headers and footers.
+
+The default `TcPdfFactory` lets you specify a custom subclass by specifying the 'className'
+option when creating a PDF. For example:
+
+```php
+class MySpecialGenerator extends AbstractPdfGenerator
+{
+    protected function doGenerate(array $parameters, array $options)
+    {
+        $options['className'] = 'My\Bundle\CustomTcpdf';
+        $pdf = $this->createPdf('tcpdf', $options);
+
+        /** @var \My\Bundle\CustomTcpdf $builder */
+        $builder = $pdf->getNativeObject();
+
+        // Use your custom subclass as necessary...
+
+        return $pdf;
+    }
+}
+```
+
+Notice that `$builder` in the example above is an instance of `My\Bundle\CustomTcpdf`.
