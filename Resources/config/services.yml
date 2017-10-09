@@ -7,25 +7,25 @@ parameters:
 services:
   # Factories
   orkestra.pdf.tcpdf_factory:
-    class: %orkestra.pdf.tcpdf_factory.class%
+    class: '%orkestra.pdf.tcpdf_factory.class%'
   orkestra.pdf.wkpdf_factory:
-    class: %orkestra.pdf.wkpdf_factory.class%
-    arguments: [ %orkestra.pdf.wkhtmltopdf.binary_path% ]
+    class: '%orkestra.pdf.wkpdf_factory.class%'
+    arguments: [ '%orkestra.pdf.wkhtmltopdf.binary_path%' ]
   orkestra.pdf.zendpdf_factory:
-    class: %orkestra.pdf.zendpdf_factory.class%
+    class: '%orkestra.pdf.zendpdf_factory.class%'
 
   # Registry
   orkestra.pdf.factory_registry:
-    class: %orkestra.pdf.factory_registry.class%
+    class: '%orkestra.pdf.factory_registry.class%'
     calls:
-      - [ registerFactory, [ @orkestra.pdf.tcpdf_factory ] ]
-      - [ registerFactory, [ @orkestra.pdf.wkpdf_factory ] ]
-      - [ registerFactory, [ @orkestra.pdf.zendpdf_factory ] ]
+      - [ registerFactory, [ '@orkestra.pdf.tcpdf_factory' ] ]
+      - [ registerFactory, [ '@orkestra.pdf.wkpdf_factory' ] ]
+      - [ registerFactory, [ '@orkestra.pdf.zendpdf_factory' ] ]
 
   # Utility services
   orkestra.pdf.cache_warmer:
     public: false
     class: Orkestra\Bundle\PdfBundle\CacheWarmer\PdfCacheWarmer
-    arguments: [ @service_container ]
+    arguments: [ '@service_container' ]
     tags:
       - { name: kernel.cache_warmer }
