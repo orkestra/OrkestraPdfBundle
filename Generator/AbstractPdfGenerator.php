@@ -14,7 +14,6 @@ namespace Orkestra\Bundle\PdfBundle\Generator;
 use Orkestra\Bundle\PdfBundle\Factory\FactoryRegistryInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Default base class, useful for any PDF generator
@@ -108,18 +107,18 @@ abstract class AbstractPdfGenerator implements PdfGeneratorInterface
     /**
      * Set allowed, required and default parameters
      *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    protected function setDefaultParameters(OptionsResolverInterface $resolver)
+    protected function setDefaultParameters(OptionsResolver $resolver)
     {
     }
 
     /**
      * Set allowed, required and default options
      *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    protected function setDefaultOptions(OptionsResolverInterface $resolver)
+    protected function setDefaultOptions(OptionsResolver $resolver)
     {
     }
 }

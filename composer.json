@@ -11,13 +11,13 @@
   ],
   "require": {
     "php": ">=5.3.3",
-    "symfony/options-resolver": "~2.3"
+    "symfony/options-resolver": "~3.0"
   },
   "require-dev": {
     "tecnick.com/tcpdf": "~6.0",
     "zendframework/zend-stdlib": "2.*",
     "zendframework/zendpdf": "2.*",
-    "symfony/symfony": "~2.3"
+    "symfony/symfony": "~2.3|~3.0"
   },
   "suggest": {
     "tcpdf": "Support for good but slow PDF generation",

@@ -118,7 +118,7 @@ In this example, we use the WkPdf adapter and the built in templating engine to 
 namespace MyBundle\PdfGenerator;
 
 use Orkestra\Bundle\PdfBundle\Generator\AbstractPdfGenerator;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InvoiceGenerator extends AbstractPdfGenerator
 {
@@ -149,9 +149,9 @@ class InvoiceGenerator extends AbstractPdfGenerator
      *
      * Use this method to specify default and required options
      *
-     * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    protected function setDefaultParameters(OptionsResolverInterface $resolver)
+    protected function setDefaultParameters(OptionsResolver $resolver)
     {
         $resolver->setRequired(array(
             'invoice',
