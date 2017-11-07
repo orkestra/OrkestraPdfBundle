@@ -14,7 +14,7 @@
     "symfony/options-resolver": "~2.3|~3.0"
   },
   "require-dev": {
-    "tecnick.com/tcpdf": "~6.0",
+    "tecnickcom/tcpdf": "~6.0",
     "zendframework/zend-stdlib": "2.*",
     "zendframework/zendpdf": "2.*",
     "symfony/symfony": "~2.3|~3.0"
